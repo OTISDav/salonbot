@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard SalonBot</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #222;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #444;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th {
+            background-color: #00A8AA;
+            color: white;
+            text-align: left;
+            padding: 12px;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        tr:hover {
+            background-color: #f1fafa;
+        }
+
+        .status {
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .status.confirmed {
+            background-color: #e0f7e9;
+            color: #1e824c;
+        }
+
+        .status.pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status.cancelled {
+            background-color: #fdecea;
+            color: #c0392b;
+        }
+
+        @media (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            th {
+                display: none;
+            }
+
+            td {
+                position: relative;
+                padding-left: 50%;
+            }
+
+            td::before {
+                position: absolute;
+                left: 15px;
+                font-weight: bold;
+                color: #666;
+                content: attr(data-label);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<h1>💈 Dashboard SalonBot</h1>
+
+<div class="card">
+    <h2>📅 Rendez-vous</h2>
+    <table>
+        <tr>
+            <th>Client</th>
+            <th>Service</th>
+            <th>Barber</th>
+            <th>Date</th>
+            <th>Heure</th>
+            <th>Status</th>
+        </tr>
+        {% for appt in appointments %}
+        <tr>
+            <td data-label="Client">{{ appt.client.phone }}</td>
+            <td data-label="Service">{{ appt.service }}</td>
+            <td data-label="Date">{{ appt.date }}</td>
+            <td data-label="Heure">{{ appt.time }}</td>
+            <td data-label="Status">
+                <span class="status {{ appt.status|lower }}">
+                    {{ appt.status }}
+                </span>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<div class="card">
+    <h2>👥 Clients</h2>
+    <table>
+        <tr>
+            <th>Téléphone</th>
+            <th>État</th>
+        </tr>
+        {% for client in clients %}
+        <tr>
+            <td data-label="Téléphone">{{ client.phone }}</td>
+            <td data-label="État">{{ client.state }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+</body>
+</html>
